@@ -27,13 +27,11 @@ function App() {
       .then(() => console.log("created"))
       .catch((err) => console.log(err));
 
-    setUser("");
     setProvidedName(true);
   }
 
   const handleChangeName = (e) => {
     setUser(e.target.value);
-    console.log(e.target.value);
   };
 
   const changeList = (e) => {
@@ -49,6 +47,7 @@ function App() {
   return (
     <div className="bg-indigo-100 w-full sm:w-3/4 md:w-3/4 xl:w-2/4 m-auto h-screen text-center py-10">
       <Logo />
+
       <div className="m-10">
         <h1 className="text-lg font-bold">Meet & Greet</h1>
         <p className="text-slate-500">{new Date().toDateString()}</p>
@@ -58,10 +57,14 @@ function App() {
 
         {providedName ? (
           <div>
-            <NextSpeaker
-              members={joinedMembers}
-              introduced={introducedMembers}
-            />
+            {user === "marina_kim" && (
+              <NextSpeaker
+                members={joinedMembers}
+                introduced={introducedMembers}
+                user={user}
+              />
+            )}
+
             <div className="grid grid-rows-4 sm:grid-cols-3 grid-cols-1">
               {joinedMembers?.map((m, i) => {
                 return (
