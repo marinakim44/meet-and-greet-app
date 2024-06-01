@@ -3,15 +3,21 @@ import { db } from "./firebase";
 import { push, child, ref, set, onValue } from "firebase/database";
 import { useState, useEffect } from "react";
 import NextSpeaker from "./components/NextSpeaker";
+import audio from "./sound2.mp3";
 
 function App() {
   const [joinedMembers, setJoinedMembers] = useState([]);
   const [introducedMembers, setIntroducedMembers] = useState([]);
 
+  const playAudio = () => {
+    new Audio(audio).play();
+  };
+
   useEffect(() => {
     const dbRef = ref(db, "users");
     onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
+      if (!data) return;
       setJoinedMembers(Object.values(data));
     });
     return () => {};
@@ -58,11 +64,18 @@ function App() {
         {providedName ? (
           <div>
             {user === "marina_kim" && (
-              <NextSpeaker
-                members={joinedMembers}
-                introduced={introducedMembers}
-                user={user}
-              />
+              <div>
+                <NextSpeaker
+                  members={joinedMembers}
+                  introduced={introducedMembers}
+                  user={user}
+                />
+                <div>
+                  <button onClick={playAudio} className="mb-10">
+                    👏👏👏👏👏
+                  </button>
+                </div>
+              </div>
             )}
 
             <div className="grid grid-rows-4 sm:grid-cols-3 grid-cols-1">

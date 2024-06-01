@@ -98,7 +98,7 @@ export default function NextSpeaker({ members, introduced, user }) {
       </div>
 
       <button
-        className="bg-teal-500 text-white p-3 rounded mb-10"
+        className="bg-teal-500 text-white p-3 rounded mb-5"
         onClick={generateNextSpeaker}
       >
         Who's next?
