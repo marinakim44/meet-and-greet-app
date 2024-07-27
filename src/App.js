@@ -29,7 +29,10 @@ function App() {
   async function saveUser(name) {
     const id = push(child(ref(db), "users")).key;
 
-    await set(ref(db, "users/" + id), { name: name })
+    await set(ref(db, "users/" + id), {
+      name: name,
+      date: new Date().toDateString(),
+    })
       .then(() => console.log("created"))
       .catch((err) => console.log(err));
 
@@ -58,7 +61,11 @@ function App() {
         <h1 className="text-lg font-bold">Meet & Greet</h1>
         <p className="text-slate-500">{new Date().toDateString()}</p>
         <p className="text-slate-500 mb-10">
-          Member joined: {joinedMembers?.length}
+          Member joined:{" "}
+          {
+            joinedMembers?.filter((m) => m.date === new Date().toDateString())
+              .length
+          }
         </p>
 
         {providedName ? (
@@ -79,21 +86,23 @@ function App() {
             )}
 
             <div className="grid grid-rows-4 sm:grid-cols-3 grid-cols-1">
-              {joinedMembers?.map((m, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="m-1 bg-indigo-300 rounded flex flex-row justify-start pl-5 gap-3"
-                  >
-                    <input
-                      type="checkbox"
-                      name={m.name}
-                      onChange={changeList}
-                    />
-                    <p className="text-white">{m.name}</p>
-                  </div>
-                );
-              })}
+              {joinedMembers
+                ?.filter((m) => m.date === new Date().toDateString())
+                .map((m, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="m-1 bg-indigo-300 rounded flex flex-row justify-start pl-5 gap-3"
+                    >
+                      <input
+                        type="checkbox"
+                        name={m.name}
+                        onChange={changeList}
+                      />
+                      <p className="text-white">{m.name}</p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         ) : (
